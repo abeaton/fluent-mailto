@@ -1,0 +1,37 @@
+{
+  "name": "fluent-mailto",
+  "version": "1.0.0",
+  "description": "A fluent, immutable library for creating mailto links without the hassle",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abeaton/fluent-mailto.git"
+  },
+  "keywords": [
+    "mailto",
+    "link",
+    "immutable",
+    "functional",
+    "builder"
+  ],
+  "author": "Adam Beaton",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/abeaton/fluent-mailto/issues"
+  },
+  "homepage": "https://github.com/abeaton/fluent-mailto#readme",
+  "devDependencies": {
+    "@types/jest": "^26.0.19",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.4.4",
+    "typescript": "^4.1.3"
+  },
+  "dependencies": {
+    "immutable": "^4.0.0-rc.12"
+  }
+}
