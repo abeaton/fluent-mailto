@@ -1,6 +1,6 @@
 {
   "name": "fluent-mailto",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A fluent, immutable library for creating mailto links without the hassle",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
