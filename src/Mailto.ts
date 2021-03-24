@@ -1,12 +1,11 @@
-import { List } from 'immutable';
 import { mailtoEncodeURI } from './mailtoEncode';
 
 interface MailtoBuilderInput {
-	addresses?: Array<string> | List<string>;
+	addresses?: Array<string>;
 	subject?: string;
 	body?: string;
-	cc?: Array<string> | List<string>;
-	bcc?: Array<string> | List<string>;
+	cc?: Array<string>;
+	bcc?: Array<string>;
 }
 
 /**
@@ -25,23 +24,23 @@ interface MailtoBuilderInput {
  * 3) This component does call encodeURI for to, cc, and bcc, plus some logic based on RFC2368
  */
 export class MailtoBuilder {
-	private _addresses: List<string>;
+	private _addresses: string[];
 	private _subject?: string;
 	private _body?: string;
-	private _cc: List<string>;
-	private _bcc: List<string>;
+	private _cc: string[];
+	private _bcc: string[];
 
 	constructor(input: MailtoBuilderInput = {}) {
-		this._addresses = List(input?.addresses);
+		this._addresses = input?.addresses || [];
 		this._subject = input?.subject;
 		this._body = input?.body;
-		this._cc = List(input?.cc);
-		this._bcc = List(input?.bcc);
+		this._cc = input?.cc || [];
+		this._bcc = input?.bcc || [];
 	}
 
 	public to(...addresses: Array<string>): MailtoBuilder {
 		return new MailtoBuilder({
-			addresses: this._addresses.push(...addresses),
+			addresses: [...this._addresses, ...addresses],
 			subject: this._subject,
 			body: this._body,
 			cc: this._cc,
@@ -74,7 +73,7 @@ export class MailtoBuilder {
 			addresses: this._addresses,
 			subject: this._subject,
 			body: this._body,
-			cc: this._cc.push(...newCC),
+			cc: [...this._cc, ...newCC],
 			bcc: this._bcc,
 		});
 	}
@@ -85,7 +84,7 @@ export class MailtoBuilder {
 			subject: this._subject,
 			body: this._body,
 			cc: this._cc,
-			bcc: this._bcc.push(...newBCC),
+			bcc: [...this._bcc, ...newBCC],
 		});
 	}
 
@@ -94,8 +93,8 @@ export class MailtoBuilder {
 
 		const subject = this._subject ? `subject=${encodeURIComponent(this._subject)}` : undefined;
 		const body = this._body ? `body=${encodeURIComponent(this._body)}` : undefined;
-		const cc = !this._cc.isEmpty() ? `cc=${this._cc.map(mailtoEncodeURI).join(',')}` : undefined;
-		const bcc = !this._bcc.isEmpty() ? `bcc=${this._bcc.map(mailtoEncodeURI).join(',')}` : undefined;
+		const cc = this._cc.length !== 0 ? `cc=${this._cc.map(mailtoEncodeURI).join(',')}` : undefined;
+		const bcc = this._bcc.length !== 0 ? `bcc=${this._bcc.map(mailtoEncodeURI).join(',')}` : undefined;
 
 		const headers = [
 			subject,
@@ -111,7 +110,7 @@ export class MailtoBuilder {
 	}
 
 	public getAddresses(): Array<string> {
-		return this._addresses.toArray();
+		return this._addresses;
 	}
 
 	public getSubject(): string {
@@ -123,11 +122,11 @@ export class MailtoBuilder {
 	}
 
 	public getCC(): Array<string> {
-		return this._cc.toArray();
+		return this._cc;
 	}
 
 	public getBCC(): Array<string> {
-		return this._bcc.toArray();
+		return this._bcc;
 	}
 }
 
